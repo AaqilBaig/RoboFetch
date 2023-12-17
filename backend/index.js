@@ -70,7 +70,7 @@ app.post("/api/sendXY", (req, res) => {
     return res.status(400).json({ error: "Invalid coordinates format" });
   }
 
-  console.log("Received coordinates:", coordinates);
+  console.log(coordinates);
 
   // Assuming coordinates is an array of objects like [{ x: 1, y: 2 }, { x: 3, y: 4 }]
   coordinates.forEach((coord) => {

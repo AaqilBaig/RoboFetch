@@ -12,7 +12,7 @@ function App() {
 
   const getUser = async () => {
     try {
-      const url = "http://localhost:3000/auth/login/success";
+      const url = "https://robofetch.onrender.com/auth/login/success";
       const { data } = await axios.get(url, { withCredentials: true });
       setUser(data.user._json);
     } catch (err) {
