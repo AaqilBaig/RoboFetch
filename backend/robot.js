@@ -32,7 +32,7 @@ function controlLED(command) {
   client.publish("nodemcu/control", command);
 }
 
-for (i = 0; i <= 3; i++) {
+for (i = 1; i <= 3; i++) {
   
   controlLED("1");
 }
