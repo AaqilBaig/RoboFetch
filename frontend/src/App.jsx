@@ -38,7 +38,7 @@ function App() {
           path="/signup"
           element={user ? <Navigate to="/" /> : <SignUpComponent />}
         />
-        <Route path="/pharmacy" element={ <Pharma/>} />
+        <Route path="/pharmacy" component={Pharma} />
       </Routes>
     </div>
   );

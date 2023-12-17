@@ -36,7 +36,7 @@ const Pharma = () => {
       return;
     }
     e.preventDefault();
-    await axios.post("https://robofetch.onrender.com/api/medical", {
+    await axios.post("https://backend-robofetch.onrender.com/api/medical", {
       withCredentials: true,
       name: tablet.name,
       x: tablet.x,
@@ -54,7 +54,7 @@ const Pharma = () => {
     console.log(e.target);
     window.prompt("Enter the new name", e.target.name);
     await axios
-      .put("https://robofetch.onrender.com/api/medical", {
+      .put("https://backend-robofetch.onrender.com/api/medical", {
         withCredentials: true,
         name: e.target.name,
         x: e.target.x,
@@ -73,7 +73,7 @@ const Pharma = () => {
       if (!window.confirm("Are you sure you want to delete this tablet?"))
         return;
       else {
-        await axios.delete(`https://robofetch.onrender.com/api/medical/${id}`, {
+        await axios.delete(`https://backend-robofetch.onrender.com/api/medical/${id}`, {
           withCredentials: true,
         });
         // After deletion, update the local state
@@ -86,7 +86,7 @@ const Pharma = () => {
   useEffect(() => {
     const fetchMedicines = async () => {
       try {
-        const url = "https://robofetch.onrender.com/api/medical";
+        const url = "https://backend-robofetch.onrender.com/api/medical";
         const { data } = await axios.get(url, { withCredentials: true });
         // console.log(meds);
         setMeds(data.result);
@@ -139,7 +139,7 @@ const Pharma = () => {
     e.preventDefault();
 
     try {
-      await axios.post("https://robofetch.onrender.com/api/sendXY", {
+      await axios.post("https://backend-robofetch.onrender.com/api/sendXY", {
         coordinates: selectItems, // Update the key to match your backend (coordinates vs items)
       });
 

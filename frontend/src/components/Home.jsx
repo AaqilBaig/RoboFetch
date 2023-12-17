@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   // const user = userDetails.user;
   const navigate = useNavigate();
+  const gotoPharma = () => navigate("/pharmacy");
   return (
     <Container>
       <NavBar />
@@ -23,7 +24,7 @@ function Home() {
             advanced robotics and automation to create efficient, error-free,
             and customer-centric shopping environments.
           </h4>
-          <button onClick={() => navigate("/pharmacy")}>Explore now</button>
+          <button onClick={gotoPharma}>Explore now</button>
         </div>
         <div className="img">
           <img src={Robot} alt="" />

@@ -7,7 +7,7 @@ import process from "process";
 
 function Login() {
   const googleAuth = () => {
-    window.open(`https://robofetch.onrender.com/auth/google/callback`, "_self");
+    window.open(`https://backend-robofetch.onrender.com/auth/google/callback`, "_self");
   };
   return (
     <Container>
