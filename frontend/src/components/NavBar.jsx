@@ -1,183 +1,88 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { FaBars } from "react-icons/fa";
-import { PiToggleRightFill, PiToggleLeftFill } from "react-icons/pi";
+import axios from 'axios';
+import { Button, Flex, Divider, HStack, Heading, Link, Tag, Avatar, TagLabel } from '@chakra-ui/react'
+import { Link as ReactRouterLink } from 'react-router-dom'
+import { AuthContext } from "../Contexts/AuthContext";
+
+
 
 const NavBar = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user,dispatch } = useContext(AuthContext)
 
-  // Update the window width when the window is resized
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const logout = async () => {
+    try {
+      await axios.get('http://localhost:3000/auth/logout', { withCredentials: true });
+      console.log("logged out");
+      dispatch({type: 'LOGOUT', payload: null})
+    } catch (err) {
+      console.error('Failed to logout', err);
+    }
+  };
 
   return (
-    <NavComponent>
-      {windowWidth <= 700 && (
-        <IconWrapper>
-          <ImageButton className="image">
-            <a href="/" style={{ cursor: "pointer" }}>
-              RoboFetch
-            </a>
-          </ImageButton>
-          <FaBars onClick={() => setIsMenuOpen(!isMenuOpen)} />
-        </IconWrapper>
-      )}
-      {isMenuOpen && windowWidth <= 700 && (
-        <>
-          <ul>
-            <List>
-              <a href="/"> Home</a>
-            </List>
-            <List>
-              <a href="/">About</a>
-            </List>
-            <List>
-              <a href="/"> Contact</a>
-            </List>
-            <List>
-              <a href="/"> Login</a>
-            </List>
-          </ul>
-        </>
-      )}
-      {windowWidth > 700 && (
-        <>
-          <ImageButton className="image">
-            <a href="/" style={{ cursor: "pointer" }}>
-              RoboFetch
-            </a>
-          </ImageButton>
-          <ul>
-            <List>
-              <a href="/"> Home</a>
-            </List>
-            <List>
-              <a href="/">About</a>
-            </List>
-            <List>
-              <a href="/"> Contact</a>
-            </List>
-            <List>
-              <a href="/"> Login</a>
-            </List>
-          </ul>
-        </>
-      )}
-    </NavComponent>
+    <Flex justifyContent='space-between' p='15px' >
+            <Heading 
+                size='lg' 
+                // bgGradient="linear(to-r, purple.400, blue.300)" 
+                // bgClip="text"
+                color='blackAlpha.700'
+                fontSize="4xl"
+                fontWeight="bold" 
+            >
+                RoboFetch
+            </Heading>
+            <HStack gap='20px'>
+                {user ? (
+                <HStack>
+                    
+                    <Tag size='lg' colorScheme='purple' borderRadius='full' p='10px' mr='20px'>
+                        <Avatar
+                            src={user.picture}
+                            size='xs'
+                            name='Segun'
+                            ml={-1}
+                            mr={2}
+                        />
+                        <TagLabel>{user.username}</TagLabel>
+                    </Tag>
+                    <Button
+                        as={ReactRouterLink}
+                        to='/signup'
+                        colorScheme='blackAlpha' 
+                        variant='solid'
+                        bg='blackAlpha.800'
+                        onClick={logout}
+                    >
+                        Log out
+                    </Button>
+                </HStack>): (
+                <>
+                    <Button
+                        as={ReactRouterLink}
+                        to='/signup'
+                        colorScheme='blackAlpha' 
+                        variant='ghost' 
+                        fontWeight='bold' 
+                        _hover={{bg: 'lightgrey'}} 
+                        color='black'
+                    >
+                        Log In
+                    </Button>
+                    <Button
+                        as={ReactRouterLink}
+                        to='/signup'
+                        colorScheme='blackAlpha' 
+                        variant='solid'
+                        bg='blackAlpha.800'
+                    >
+                        Sign Up
+                    </Button>
+                </>)}
+            </HStack>
+        </Flex>
   );
 };
 
 export default NavBar;
-
-const NavComponent = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-family: "Roboto", sans-serif;
-  padding: 10px 0;
-  width: 80%;
-  margin: 10px;
-  ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none;
-    width: 40%;
-    max-width: 1200px;
-    padding: 0 20px;
-    // margin: 10px;
-    font-size: 1.1rem;
-  }
-
-  img {
-    width: 5em;
-    height: 5em;
-    border-radius: 50%;
-    padding: 10px;
-  }
-
-  @media (max-width: 700px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    ul {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-    }
-    img {
-      width: 3em;
-      height: 3em;
-    }
-  }
-`;
-
-const List = styled.li`
-  cursor: pointer;
-  margin: 10px;
-  a {
-    color: black;
-    text-decoration: none;
-  }
-  @media (max-width: 700px) and (min-width: 280px) {
-
-    a {
-      font-size: 1rem;
-      text-decoration: none;
-      color: black;
-    }
-    
-  }
-}
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  align-items: center;
-
-  svg {
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: black;
-  }
-`;
-
-const ImageButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  a{
-    text-decoration: none;
-    color: black;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-`;

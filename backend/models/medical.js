@@ -5,8 +5,16 @@ const medicalSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    x: Number,
-    y: Number
+    rackNo : {
+        type: Number,
+        required: true
+    },
+    quantity: {
+        type: Number
+    },
+    stock: {
+        type: Number
+    }
 })
 
 module.exports = mongoose.model('Medical', medicalSchema)

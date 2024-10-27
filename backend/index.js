@@ -5,11 +5,8 @@ const cors = require("cors");
 const app = express();
 const authRoutes = require("./routes/auth");
 const session = require("express-session");
-const passportStrategy = require("./passport");
-const mqtt = require("mqtt");
 require("dotenv").config();
-
-const MongoStore = require("connect-mongo");
+require('./passport')
 
 app.use(
   cors({
@@ -21,11 +18,13 @@ app.use(
 
 app.use(
   session({
-    secret: "mubashir",
+    secret: "lmnopqrstuvwxyz",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_STR }),
-    cookie: { secure: false },
+    cookie: {
+      secure: false,
+      httpOnly: true
+    }
   })
 );
 app.use(passport.initialize());
@@ -35,55 +34,7 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 
-let options = {
-  host: "d25bcff68c4b4d639a0bc7adad7240f4.s2.eu.hivemq.cloud",
-  port: 8883,
-  protocol: "mqtts",
-  username: "Mubashir",
-  password: "Mubbi@hivemq061",
-};
 
-let client = mqtt.connect(options);
-
-client.on("connect", function () {
-  console.log("Connected");
-  client.subscribe("nodemcu/control");
-});
-
-client.on("error", function (error) {
-  console.log(error);
-});
-
-client.on("message", function (topic, message) {
-  console.log("Received message: ", topic, message.toString());
-  if (message.toString() == "ON") {
-    console.log("Turning LED ON");
-  } else if (message.toString() == "OFF") {
-    console.log("Turning LED OFF");
-  }
-});
-
-app.post("/api/sendXY", (req, res) => {
-  const { coordinates } = req.body;
-
-  if (!coordinates || !Array.isArray(coordinates)) {
-    return res.status(400).json({ error: "Invalid coordinates format" });
-  }
-
-  console.log(coordinates);
-
-  // Assuming coordinates is an array of objects like [{ x: 1, y: 2 }, { x: 3, y: 4 }]
-  coordinates.forEach((coord) => {
-    sendCoordinates(coord);
-
-  });
-
-  return res.status(200).json({ success: true });
-});
-
-function sendCoordinates(command) {
-  client.publish("nodemcu/control", JSON.stringify(command));
-}
 
 const Medical = require("./models/medical");
 
@@ -92,7 +43,7 @@ mongoose.set("strictQuery", false);
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-  res.send("Hello world");
+  res.json("Hello world");
 });
 
 // mongo db
@@ -100,7 +51,7 @@ app.get("/", (req, res) => {
 app.get("/api/medical", async (req, res) => {
   console.log(await mongoose.connection.db.listCollections().toArray());
   const result = await Medical.find();
-  res.send({ result });
+  res.json(result);
 });
 
 app.get("/api/medical/:id", async (req, res) => {
