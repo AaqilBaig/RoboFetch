@@ -63,7 +63,7 @@ function SignUpComponent() {
           Sign In With Google
         </Center>
         <Center mt='20px'>
-          <a className="google-btn" href="/auth/google">
+          <a className="google-btn" href="https://robofetch-server.onrender.com/auth/google">
             <Image src={google} boxSize='44px' border='1px solid gray' borderRadius='5px' p='5px'/>
           </a>
         </Center>
