@@ -1,5 +1,5 @@
 import { AtSignIcon, CalendarIcon, EditIcon } from "@chakra-ui/icons";
-import { List,ListItem,ListIcon } from "@chakra-ui/react";
+import { List,ListItem,ListIcon, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
@@ -9,6 +9,7 @@ import { ref, set, push } from "firebase/database";
 const MenuBar = () => {
 
   const { user } = useContext(AuthContext)
+  const toast = useToast()
 
   const handleBuy = () => {
     const itemArr = JSON.parse(localStorage.getItem('cart'))
@@ -31,6 +32,13 @@ const MenuBar = () => {
         })
         .then(() => {
           console.log("Item added to Firebase successfully.");
+          toast({
+            title: 'Item Bought.',
+            description: "Item added to Database",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
         })
         .catch((error) => {
           console.error("Error adding item to Firebase: ", error);
