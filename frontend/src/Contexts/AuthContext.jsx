@@ -20,25 +20,25 @@ export const AuthContextProvider = ({ children }) => {
         user: null
     })
 
-    useEffect(() => {
-        const getUser = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/auth/login/success',{
-                    withCredentials: true
-                });
-                if (response.status === 200) {
-                    dispatch({type: 'LOGIN', payload: response.data.user})
-                } else {
-                    console.log('Failed to authenticate user');
-                }
-            } catch (err) {
-                console.log(err.message);
-            }
+    // useEffect(() => {
+    //     const getUser = async () => {
+    //         try {
+    //             const response = await axios.get('http://localhost:3000/auth/login/success',{
+    //                 withCredentials: true
+    //             });
+    //             if (response.status === 200) {
+    //                 dispatch({type: 'LOGIN', payload: response.data.user})
+    //             } else {
+    //                 console.log('Failed to authenticate user');
+    //             }
+    //         } catch (err) {
+    //             console.log(err.message);
+    //         }
             
-        };
+    //     };
 
-        getUser();
-    }, []);
+    //     getUser();
+    // }, []);
 
     return (
         <AuthContext.Provider value={{...state, dispatch}}>

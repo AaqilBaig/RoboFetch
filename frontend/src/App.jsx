@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/login/success', { withCredentials: true });
+        const response = await axios.get('https://robofetch-server.onrender.com/auth/login/success', { withCredentials: true });
         
         if (response.status === 200) {
           console.log(response.data.user);

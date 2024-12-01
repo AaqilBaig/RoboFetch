@@ -22,7 +22,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 router.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('http://localhost:5173/'); // Redirect to home or any other route after successful authentication
+    res.redirect('https://robofetch-8f98.onrender.com'); // Redirect to home or any other route after successful authentication
   }
 );
 

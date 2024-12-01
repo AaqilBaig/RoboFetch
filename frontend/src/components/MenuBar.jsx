@@ -54,7 +54,7 @@ const MenuBar = () => {
     
     item.stock = item.stock - item.quantity
 
-    const response = await fetch(`http://localhost:3000/api/medical/${item._id}`, {
+    const response = await fetch(`https://robofetch-server.onrender.com/api/medical/${item._id}`, {
       method: 'PUT',
       body: JSON.stringify(item),
       headers: {

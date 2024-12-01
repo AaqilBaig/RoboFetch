@@ -13,7 +13,7 @@ const NavBar = () => {
 
   const logout = async () => {
     try {
-      await axios.get('http://localhost:3000/auth/logout', { withCredentials: true });
+      await axios.get('https://robofetch-server.onrender.com/auth/logout', { withCredentials: true });
       console.log("logged out");
       dispatch({type: 'LOGOUT', payload: null})
     } catch (err) {

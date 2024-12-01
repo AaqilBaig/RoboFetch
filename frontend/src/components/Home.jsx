@@ -19,7 +19,7 @@ function Home() {
 
   useEffect(() => {
     const fetchMedicines = async () => {
-      const response = await fetch('http://localhost:3000/api/medical');
+      const response = await fetch('https://robofetch-server.onrender.com/api/medical');
 
       if (!response.ok) {
         throw new Error("Network Error: Med");
@@ -67,7 +67,7 @@ function Home() {
     
     item.stock = item.stock - item.quantity
 
-    const response = await fetch(`http://localhost:3000/api/medical/${item._id}`, {
+    const response = await fetch(`https://robofetch-server.onrender.com/api/medical/${item._id}`, {
       method: 'PUT',
       body: JSON.stringify(item),
       headers: {
